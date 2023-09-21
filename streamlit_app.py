@@ -7,65 +7,34 @@ st.set_page_config(page_title="時間計測", layout="wide")
 # タイトルを設定
 st.title('時間計測')
 
-p = 91
-q = 71
-n = p*q
-e = 17
-a = 87
-b = 987
+import time
+import math
 
+def factorize(n):
+    factors = []
+    while n % 2 == 0:
+        factors.append(2)
+        n //= 2
+    for i in range(3, int(math.sqrt(n)) + 1, 2):
+        while n % i == 0:
+            factors.append(i)
+            n //= i
+    if n > 1:
+        factors.append(n)
+    return factors
 
- 
+# 素因数分解対象の数
+number_to_factorize = 1234567890
 
-code_a = pow(a, e, n)
-code_b = pow(b, e, n)
-    
-def gcd(v, w):
-       while w:
-           v, w = w, v % w
-       return v
-    
-def lcm(v, w):
-       return abs(v * w) // gcd(v, w)
-    
-num1 = p-1
-num2 = q-1
-r= lcm(num1, num2)
-    
-def extended_gcd(s, t):
-    if t == 0:
-        return s, 1, 0
-    else:
-        d, x, y = extended_gcd(t, s % t)
-        return d, y, x - (s // t) * y
+# 素因数分解の計測開始
+start_time = time.time()
 
-def solve_linear_diophantine(s, t, u):
-    d, x, y = extended_gcd(s, t)
-    if u % d == 0:
-        x0 = x * (u // d)
-        y0 = y * (u // d)
-        if x0 >= 0:
-            return x0, y0
-        else:
-            quotient = (-x0 + abs(t) - 1) // abs(t)
-            x = x0 + quotient * (t // d)
-            y = y0 - quotient * (s // d)
-            return x, y
-    else:
-        return none
+factors = factorize(number_to_factorize)
 
-    
-s = e
-t = -r
-u = 1
-solution = solve_linear_diophantine(s, t, u)
-if solution:
-        x, y = solution
-        print(f"整数解: x = {x}, y = {y}")
-else:
-        print('解なし')
-        
-Pa = pow(code_a,x,n)
-Pb = pow(code_b,x,n)
-print(Pa,Pb)
+# 素因数分解の計測終了
+end_time = time.time()
 
+elapsed_time = end_time - start_time
+
+print(f"素因数分解結果: {factors}")
+print(f"素因数分解にかかる時間: {elapsed_time} 秒")
